@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimun-scale=1,maximun-scale=1,user-scalable=no">
+	<title>编辑新闻</title>
+
+	<link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="plugins/metisMenu/metisMenu.css">
+	<link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.css">
+	<link rel="stylesheet" href="plugins/footable/footable.core.css">
+  <link rel="stylesheet" href="plugins/summernote/summernote.css">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+	<div class="header">
+		<span class="logo">logo</span>
+		<ul class="nav">
+			<li><a class="logout" href="login.html" onclick="delCookie()">安全退出</a></li>
+		</ul>
+	</div>
+	<div class="wrapper-page">
+    <aside class="navgation">
+      <nav class="sidebar-nav">
+        <ul class="metismenu" id="menu">
+          <li>
+              <a><i class="fa fa-user"></i> <span class="nav-label">首页</span> <span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse">
+                  <li><a href="homebanner.html">banner</a></li>
+              </ul>
+          </li>
+          <li class="active">
+              <a><i class="fa fa-user"></i> <span class="nav-label">新闻动态</span> <span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse">
+                  <li><a href="news01.html">添加新闻</a></li>
+                  <li class="active"><a href="news02.html">新闻列表</a></li>
+              </ul>
+          </li>
+          <li>
+              <a href="user01.html"><i class="fa fa-user"></i> <span class="nav-label">修改密码</span> <span class="fa arrow"></span></a>
+          </li>
+          <li>
+              <a><i class="fa fa-user"></i> <span class="nav-label">财富学堂</span> <span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse">
+                  <li><a href="FortuneSchools01.html">添加</a></li>
+                  <li><a href="FortuneSchools02.html">列表</a></li>
+              </ul>
+          </li>
+          <li>
+              <a><i class="fa fa-user"></i> <span class="nav-label">政策法规</span> <span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse">
+                  <li><a href="Policies01.html">添加</a></li>
+                  <li><a href="Policies02.html">列表</a></li>
+              </ul>
+          </li>
+
+        </ul>
+      </nav>
+    </aside>
+		<div class="page-content">
+      <div><label for="">标题：</label><input class="oneheader" type="text" placeholder="请输入标题"></div>
+			<div>
+        <label for="">类型：</label>
+        <select class="selecttype" name="" id="">
+          <option value=""></option>
+          <option value="公司新闻">公司新闻</option>
+          <option value="行业新闻">行业新闻</option>
+        </select>
+      </div>
+      <div class="summernote"></div>
+      <button id="edit" class="btn btn-primary" onclick="edit()" type="button">编辑</button>
+      <button id="save" class="btn btn-primary" onclick="save()" type="button">保存</button>
+		</div>
+	</div>
+	<script src="js/jquery-2.1.1.js"></script>
+	<script src="plugins/bootstrap/bootstrap.min.js"></script>
+	<script src="plugins/metisMenu/metisMenu.js"></script>
+ 	<script src="plugins/footable/footable.all.min.js"></script>
+  <script src="plugins/summernote/summernote.min.js"></script>
+  <script src="plugins/slimscroll/jquery.slimscroll.js"></script>
+  <script src="plugins/summernote/lang/summernote-zh-CN.min.js"></script>
+  <script src="js/common.js"></script>
+	<script>
+
+
+        $.get( "http://101.200.197.79:3000/api/Journalisms", { filter: {"where":{"id":request("id")}}} )
+          .done(function( data,statusText,response) {
+            console.log( "Data Loaded: " , data[0].title);
+            $('.oneheader').val(data[0].title);
+            $('.summernote').html(data[0].content);
+            $('.selecttype').val(data[0].type);
+          }).fail(function(err,statusText){
+            console.log( "err: " , err );
+          });
+        var save = function(){
+          var makrup = $('.summernote').summernote('code');
+              $('.summernote').summernote('destroy');
+          var content = $('.summernote').html();
+					var title = $('.oneheader').val();
+          var type = $('.selecttype').val();
+					//提交新闻
+					 $.ajax({
+             url: 'http://101.200.197.79:3000/api/Journalisms/'+request("id"),
+             type: 'PUT',
+             data: {
+
+                    "title": title,
+                    "content": content,
+                    "createDate": "2016-05-04",
+                    "type": type
+                  },
+              dataType:'json',
+             success: function(response) {
+
+             },
+             error:function(err){
+
+             }
+          });
+					console.log(content);
+        };
+        var edit = function() {
+          $('.summernote').summernote({
+            focus: true,
+            height: '400',
+            lang: 'zh-CN',
+            callbacks: {
+              onImageUpload: function(files) {
+                sendFile(files[0],this);
+              }
+            }
+          });
+        };
+
+  </script>
+</body>
+</html>

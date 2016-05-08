@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="css/login.css" rel="stylesheet">
+		<link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
+    	<script src="js/jquery-2.1.1.js"></script>
+      <script src="js/common.js"></script>
+</head>
+
+<body>
+
+    <div class="loginColumns">
+        <div class="row">
+        	<div class="col-md-4">
+        		<img src="img/touxiang.png" width="150" height="150" alt="">
+        	</div>
+            <div class="col-md-8">
+                <div class="ibox-content">
+
+                        <div class="form-group">
+                            <input type="text" id="username" class="form-control" placeholder="用户名" required="">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="password" class="form-control" placeholder="密码" required="">
+                        </div>
+                        <a ><button  onclick="login()" class="btn btn-primary">登录</button>
+                       </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    //  document.cookie="token=adas";
+    //   console.log(getCookie());
+     function getCookie(name)
+      {
+         name = "intercom-id";
+      var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+      if(arr=document.cookie.match(reg))
+      return unescape(arr[2]);
+      else
+      return null;
+      }
+    var login = function(){
+      console.log(typeof $("#username").val()!="string" , $("#username").val().length<0);
+      if( $("#username").val().length<1){
+        alert("请输入用户名");
+        return ;
+      }
+      if($("#password").val().length<1){
+        alert("请输入密码");
+        return ;
+      }
+      $.post("http://101.200.197.79:3000/api/Members/login", {
+            "username": $("#username").val() ,
+            "password":$("#password").val()
+          }).done(function(data){
+            console.log(data);
+           setCookie("token",data.id ,"d30");
+           location.href="news01.html"
+          }).fail(function(err){
+            alert("登录失败,用户名或密码输入不正确");
+          });
+    }
+
+    </script>
+</body>
+
+</html>
