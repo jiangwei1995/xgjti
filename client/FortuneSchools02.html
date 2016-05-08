@@ -107,7 +107,7 @@
     });
 
     var bj;
-    $.get( "http://localhost:3000/api/FortuneSchools")
+    $.get( "http://101.200.197.79:3000/api/FortuneSchools")
       .done(function( data,statusText,response) {
         console.log( "Data Loaded: " , data[0].id);
         for(var i=0;i<data.length;i++){
@@ -122,7 +122,7 @@
       });
     var deletes = function(id){
        $.ajax({
-         url: 'http://localhost:3000/api/FortuneSchools/'+id,
+         url: 'http://101.200.197.79:3000/api/FortuneSchools/'+id,
          type: 'DELETE',
          success: function(response) {
             alert("删除成功");

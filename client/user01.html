@@ -110,14 +110,14 @@
 				return ;
 			}
 
-			$.post("http://localhost:3000/api/Members/login", {
+			$.post("http://101.200.197.79:3000/api/Members/login", {
 				    "username": "admin",
 						"password":$("#old").val()
 				  })
 	      .done(function( data,statusText,response) {
 					console.log(data);
 					$.ajax({
-						url: 'http://localhost:3000/api/Members/1',
+						url: 'http://101.200.197.79:3000/api/Members/1',
 						type: 'PUT',
 						data: {
 								"password":$("#new").val()

@@ -56,7 +56,7 @@
         alert("请输入密码");
         return ;
       }
-      $.post("http://localhost:3000/api/Members/login", {
+      $.post("http://101.200.197.79:3000/api/Members/login", {
             "username": $("#username").val() ,
             "password":$("#password").val()
           }).done(function(data){

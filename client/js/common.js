@@ -5,7 +5,7 @@
     $.ajax({
       data:  form_data,
       type: "POST",
-      url: 'http://localhost:3000/api/Journalisms/uploaderImage',
+      url: 'http://101.200.197.79:3000/api/Journalisms/uploaderImage',
       cache: false,
       contentType: false,
       processData: false,
@@ -60,7 +60,7 @@ window.onload= function(){
     alert("请登录!!!");
     location.href ="login.html"
   }else{
-    $.get("http://localhost:3000/api/Tokens/"+getCookie('token')).done(
+    $.get("http://101.200.197.79:3000/api/Tokens/"+getCookie('token')).done(
       function(data){
 
       }).fail(function(err){

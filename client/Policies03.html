@@ -54,13 +54,13 @@
                   <li class="active"><a href="Policies02.html">列表</a></li>
               </ul>
           </li>
-          
+
         </ul>
       </nav>
     </aside>
 		<div class="page-content">
       <div><label for="">标题：</label><input class="oneheader" type="text" placeholder="请输入标题"></div>
-			
+
       <div class="summernote"></div>
       <button id="edit" class="btn btn-primary" onclick="edit()" type="button">编辑</button>
       <button id="save" class="btn btn-primary" onclick="save()" type="button">保存</button>
@@ -75,14 +75,14 @@
   <script src="plugins/summernote/lang/summernote-zh-CN.min.js"></script>
   <script src="js/common.js"></script>
 	<script>
-			
 
-        $.get( "http://localhost:3000/api/Policies", { filter: {"where":{"id":request("id")}}} )
+
+        $.get( "http://101.200.197.79:3000/api/Policies", { filter: {"where":{"id":request("id")}}} )
           .done(function( data,statusText,response) {
             console.log( "Data Loaded: " , data[0].title);
             $('.oneheader').val(data[0].title);
             $('.summernote').html(data[0].content);
-  
+
           }).fail(function(err,statusText){
             console.log( "err: " , err );
           });
@@ -94,7 +94,7 @@
           var summary = $('.summary').val();
           //更新报道
            $.ajax({
-             url: 'http://localhost:3000/api/Policies/'+request("id"),
+             url: 'http://101.200.197.79:3000/api/Policies/'+request("id"),
              type: 'PUT',
              data: {
 
@@ -106,7 +106,7 @@
 
              },
              error:function(err){
-               
+
              }
           });
           console.log(content);
@@ -115,15 +115,15 @@
           $('.summernote').summernote({
             focus: true,
             height: '400',
-            lang: 'zh-CN',              
-            callbacks: {                
-              onImageUpload: function(files) {                  
-                sendFile(files[0],this);                
-              }             
-            }           
+            lang: 'zh-CN',
+            callbacks: {
+              onImageUpload: function(files) {
+                sendFile(files[0],this);
+              }
+            }
           });
         };
-      
+
   </script>
 </body>
 </html>

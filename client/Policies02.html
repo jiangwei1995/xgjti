@@ -108,7 +108,7 @@
     });
 
     var bj;
-    $.get( "http://localhost:3000/api/Policies")
+    $.get( "http://101.200.197.79:3000/api/Policies")
       .done(function( data,statusText,response) {
         console.log( "Data Loaded: " , data[0].id);
         for(var i=0;i<data.length;i++){
@@ -123,7 +123,7 @@
       });
     var deletes = function(id){
        $.ajax({
-         url: 'http://localhost:3000/api/Policies/'+id,
+         url: 'http://101.200.197.79:3000/api/Policies/'+id,
          type: 'DELETE',
          success: function(response) {
             alert("删除成功");

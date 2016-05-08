@@ -76,7 +76,7 @@
   <script src="js/common.js"></script>
 	<script>
 
-        $.get( "http://localhost:3000/api/FortuneSchools", { filter: {"where":{"id":request("id")}}} )
+        $.get( "http://101.200.197.79:3000/api/FortuneSchools", { filter: {"where":{"id":request("id")}}} )
           .done(function( data,statusText,response) {
             console.log( "Data Loaded: " , data[0].title);
             $('.oneheader').val(data[0].title);
@@ -92,7 +92,7 @@
           var title = $('.oneheader').val();
           //提交新闻
            $.ajax({
-             url: 'http://localhost:3000/api/FortuneSchools/'+request("id"),
+             url: 'http://101.200.197.79:3000/api/FortuneSchools/'+request("id"),
              type: 'PUT',
              data: {
 

@@ -84,7 +84,7 @@
 	<script>
 
 
-        $.get( "http://localhost:3000/api/Journalisms", { filter: {"where":{"id":request("id")}}} )
+        $.get( "http://101.200.197.79:3000/api/Journalisms", { filter: {"where":{"id":request("id")}}} )
           .done(function( data,statusText,response) {
             console.log( "Data Loaded: " , data[0].title);
             $('.oneheader').val(data[0].title);
@@ -101,7 +101,7 @@
           var type = $('.selecttype').val();
 					//提交新闻
 					 $.ajax({
-             url: 'http://localhost:3000/api/Journalisms/'+request("id"),
+             url: 'http://101.200.197.79:3000/api/Journalisms/'+request("id"),
              type: 'PUT',
              data: {
 
