@@ -1,0 +1,31 @@
+.user04 {
+	
+}
+
+.user05 .top {
+
+}
+.user05 .top dl {
+	float: left;
+	width: 25%;
+}
+.user05 .top dl dt {
+	margin: 0 auto;
+	height: 150px;
+	width: 150px;
+	text-align: center;
+	line-height: 150px;
+	font-size: 30px;
+	border-radius: 50%;
+	border: 1px solid #666;
+	margin-bottom: 5px;
+}
+.user05 .top dl dd {
+	margin: 0 auto;
+	height: 40px;
+	width: 150px;
+	text-align: center;
+	line-height: 40px;
+	font-size: 20px;
+	border: 1px solid #666;
+}
