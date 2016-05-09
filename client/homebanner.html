@@ -15,22 +15,22 @@
 </head>
 <body>
 	<div class="header">
-		<span class="logo">logo</span>
+		<span class="logo"><img style="width: 140px; margin-top: -10px;" src="img/logo.png" height="100%" alt=""></span>
 		<ul class="nav">
-			<li><a class="logout" href="login.html" onclick="delCookie()">安全退出</a></li>
+			<li><a class="logout" href="login.html">安全退出</a></li>
 		</ul>
 	</div>
 	<div class="wrapper-page">
     <aside class="navgation">
       <nav class="sidebar-nav">
 				<ul class="metismenu" id="menu">
-          <li class="active">
+          <li  class="active">
               <a><i class="fa fa-user"></i> <span class="nav-label">首页</span> <span class="fa arrow"></span></a>
               <ul class="nav nav-second-level collapse">
                   <li  class="active"><a href="homebanner.html">banner</a></li>
               </ul>
           </li>
-          <li >
+          <li>
               <a><i class="fa fa-user"></i> <span class="nav-label">新闻动态</span> <span class="fa arrow"></span></a>
               <ul class="nav nav-second-level collapse">
                   <li><a href="news01.html">添加新闻</a></li>
@@ -38,7 +38,10 @@
               </ul>
           </li>
           <li>
-              <a href="user01.html"><i class="fa fa-user"></i> <span class="nav-label">修改密码</span> <span class="fa arrow"></span></a>
+              <a><i class="fa fa-user"></i> <span class="nav-label">用户管理</span> <span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse">
+                  <li><a href="user01.html">用户列表</a></li>
+              </ul>
           </li>
           <li>
               <a><i class="fa fa-user"></i> <span class="nav-label">财富学堂</span> <span class="fa arrow"></span></a>
@@ -51,7 +54,7 @@
               <a><i class="fa fa-user"></i> <span class="nav-label">政策法规</span> <span class="fa arrow"></span></a>
               <ul class="nav nav-second-level collapse">
                   <li><a href="Policies01.html">添加</a></li>
-                  <li><a href="Policies02.html">列表</a></li>
+                  <li ><a href="Policies02.html">列表</a></li>
               </ul>
           </li>
 
@@ -71,13 +74,12 @@
                             <tr>
                                 <th>ID</th>
                                 <th>图片</th>
+                                <th>位置</th>
                                 <th>操作</th>
                             </tr>
                             </thead>
                             <tbody class="tbbox">
-                                <td>1</td>
-                                <td>img</td>
-                                <td><a href="">删除</a></td>
+                                
                             </tbody>
                             <tfoot>
                             <tr>
@@ -92,12 +94,13 @@
                 </div>
             </div>
       </div>
-      <div class="addbanner">
-        <input type="text" placeholder="请输入标题">
-        <input type="file" placeholder="">
-        <input type="text" placeholder="请输入位置"><br>
+			<div class="addbanner">
+        <input id="title" type="text" placeholder="请输入标题">
+				<input type="file" name="upload" multiple="multiple" >
+				<input id="path" type="hidden"  >
+        <input id="position" type="number" placeholder="请输入位置"><br>
         <button class="btn btn-info clear">取消</button>
-        <button class="btn btn-info">保存</button>
+        <button class="btn btn-info" onclick="saveBanner()">保存</button>
 
       </div>
 
@@ -123,47 +126,82 @@
     $('.homebanner .addbanner').hide();
   });
 
+	$.get( "http://101.200.197.79:3000/api/HomeBanners",{filter:{ order: 'position ASC',}})
+		.done(function( data,statusText,response) {
+			console.log( "Data Loaded: " , data, statusText);
+			for(var i=0;i<data.length;i++){
+				$('.tbbox').append("<tr><td>"+data[i].id+"</td><td><img width='50' height='50' src="+data[i].path +" /></td><td>"+data[i].position +"</td><td><a onclick='deletes("+data[i].id+")'>删除</a></td></tr>");
+			}
+		}).fail(function(err,statusText){
+			console.log( "err: " , err, statusText );
+		});
 
-  $('.summernote').summernote({
-    height: '400',
-    lang: 'zh-CN'
-  });
+		var deletes = function(id){
+	 		$.ajax({
+	 			url: 'http://101.200.197.79:3000/api/HomeBanners/'+id,
+	 			type: 'DELETE',
+	 			success: function(response) {
+	 				 alert("删除成功");
+	 				location.reload();
+	 			},
+	 			error:function(err){
 
-  var save = function(){
-    var makrup = $('.summernote').summernote('code');
-        $('.summernote').summernote('destroy');
-    var bb = $('.summernote').html();
-		// $.get("http://101.200.197.79:3000/api/Journalisms",function(a,b,c,d,e){
-		// 	console.log(a,b,c,d,e);
-		// })
-		//获取列表 查询条件filter
-		// $.get( "http://101.200.197.79:3000/api/Journalisms" )
-		//   .done(function( data,statusText,response) {
-		//     console.log( "Data Loaded: " , data);
-		//   }).fail(function(err,statusText){
-		// 		console.log( "err: " , err );
-		// 	});
-		//提交新闻
-		$.post( "http://101.200.197.79:3000/api/Journalisms", {
-							  "title": $('.oneheader').val(),
-							  "content": bb,
-							  "createDate": "2016-05-04",
-							  "userId": 0
-							} )
-		  .done(function( data,statusText,response) {
-		    console.log( "Data Loaded: " , data, statusText);
-		  }).fail(function(err,statusText){
-				console.log( "err: " , err, statusText );
+	 			}
+	 	 });
+	  }
+
+
+	$('input[name="upload"]').change(function(e){
+		var form_data = new FormData();
+		form_data.append('upload', $('input[name="upload"]').prop("files")[0]);
+			$.ajax({
+				data:  form_data,
+				type: "POST",
+				url: 'http://101.200.197.79:3000/api/Journalisms/uploaderImage',
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function(data) {
+					alert("上传图片成功");
+					$('#path').val(data.url);
+				},
+				error: function(err) {
+					console.log(err);
+				}
 			});
-		console.log(bb);
-  };
-  var edit = function() {
-    $('.summernote').summernote({
-      focus: true,
-      height: '400',
-      lang: 'zh-CN'
-    });
-  };
+		})
+		function saveBanner(){
+			var path = $('#path').val();
+			var title = $('#title').val();
+			var position =$('#position').val();
+
+			// if(typeof title != "string" || title.length<1){
+			// 	  alter("请填写标题");
+			// 		return ;
+			// }
+			if(typeof path != "string" || path.length<1){
+				alert("请上传图片");
+				return ;
+			}
+
+			if(position<1){
+				alert("位置请输入大于1的数字");
+					return ;
+			}
+
+			$.post( "http://101.200.197.79:3000/api/HomeBanners", {
+						  "path":  path,
+						  "title": title,
+						  "position": position
+						})
+				.done(function( data,statusText,response) {
+					alert("保存成功");
+					location.reload();
+					console.log( "Data Loaded: " , data, statusText);
+				}).fail(function(err,statusText){
+					console.log( "err: " , err, statusText );
+				});
+		}
   </script>
 </body>
 </html>

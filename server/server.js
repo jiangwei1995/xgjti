@@ -11,7 +11,7 @@ app.use("/api/Journalisms/uploaderImage",function (req, res, next) {
     form.parse(req, function(error, fields, files) {
         fs.renameSync(files.upload.path, form.uploadDir + files.upload.name);
         res.writeHead(200, {"Content-Type": "application/json; charset=utf-8"});
-        res.write("{\"url\":\"http://127.0.0.1:3000/img/"+files.upload.name+"\"}");
+        res.write("{\"url\":\"http://101.200.197.79:3000/img/"+files.upload.name+"\"}");
         res.end();
   });
 });

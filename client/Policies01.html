@@ -15,7 +15,7 @@
 </head>
 <body>
 	<div class="header">
-		<span class="logo">logo</span>
+		<span class="logo"><img style="width: 140px; margin-top: -10px;" src="img/logo.png" height="100%" alt=""></span>
 		<ul class="nav">
 			<li><a class="logout" href="login.html" onclick="delCookie()">安全退出</a></li>
 		</ul>
@@ -95,7 +95,7 @@
 					$.post( "http://101.200.197.79:3000/api/Policies", {
 										  "title": title,
 										  "content": content,
-										  "createDate": "2016-05-04"
+										  "createDate": new Date().Format("yyyy-MM-dd hh:mm")
 										} )
 					  .done(function( data,statusText,response) {
 					    console.log( "Data Loaded: " , data, statusText);

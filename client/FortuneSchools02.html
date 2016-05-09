@@ -15,7 +15,7 @@
 </head>
 <body>
 	<div class="header">
-		<span class="logo">logo</span>
+		<span class="logo"><img style="width: 140px; margin-top: -10px;" src="img/logo.png" height="100%" alt=""></span>
 		<ul class="nav">
 			<li><a class="logout" href="login.html" onclick="delCookie()">安全退出</a></li>
 		</ul>
@@ -70,6 +70,7 @@
                         <tr>
                             <th>ID</th>
                             <th>标题</th>
+                            <th>时间</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -111,7 +112,7 @@
       .done(function( data,statusText,response) {
         console.log( "Data Loaded: " , data[0].id);
         for(var i=0;i<data.length;i++){
-          $('.tbbox').append("<tr><td>"+data[i].id+"</td><td>"+data[i].title+"</td><td><a onclick='deletes("+data[i].id+")'>删除</a>|<a onclick='bj("+data[i].id+")'>编辑</a></td></tr>");
+          $('.tbbox').append("<tr><td>"+data[i].id+"</td><td>"+data[i].title+"</td><td>"+new Date(data[i].createDate).Format("yyyy-MM-dd hh:mm")+"</td><td><a onclick='deletes("+data[i].id+")'>删除</a>|<a onclick='bj("+data[i].id+")'>编辑</a></td></tr>");
         }
 
         bj = function(id){
